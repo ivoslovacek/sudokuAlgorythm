@@ -1,0 +1,6 @@
+D:\DEV\sudokualgorythm\sudokualgorythm\obj\Debug\sudokualgorythm.csprojAssemblyReference.cache
+D:\DEV\sudokualgorythm\sudokualgorythm\bin\Debug\sudokualgorythm.exe.config
+D:\DEV\sudokualgorythm\sudokualgorythm\bin\Debug\sudokualgorythm.exe
+D:\DEV\sudokualgorythm\sudokualgorythm\bin\Debug\sudokualgorythm.pdb
+D:\DEV\sudokualgorythm\sudokualgorythm\obj\Debug\sudokualgorythm.exe
+D:\DEV\sudokualgorythm\sudokualgorythm\obj\Debug\sudokualgorythm.pdb
