@@ -10,15 +10,52 @@ namespace sudokualgorythm
     {
         static void Main(string[] args)
         {
-            int[,] unsolvedGrid = new int[9, 9];
-            int[,] solvedGrid = gridMaker();
-            Console.WriteLine();
+            int[,] grid = new int[9, 9];
+            for(int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    grid[i, j] = 0;
+                }
+            }
+            grid[0, 0] = 5;
+            grid[0, 1] = 3;
+            grid[0, 4] = 7;
+            grid[1, 0] = 6;
+            grid[1, 3] = 1;
+            grid[1, 4] = 9;
+            grid[1, 5] = 5;
+            grid[2, 1] = 9;
+            grid[2, 2] = 8;
+            grid[2, 7] = 6;
+            grid[3, 0] = 8;
+            grid[3, 4] = 6;
+            grid[3, 8] = 3;
+            grid[4, 0] = 4;
+            grid[4, 3] = 8;
+            grid[4, 5] = 3;
+            grid[4, 8] = 1;
+            grid[5, 0] = 7;
+            grid[5, 4] = 2;
+            grid[5, 8] = 6;
+            grid[6, 1] = 6;
+            grid[6, 6] = 2;
+            grid[6, 7] = 8;
+            grid[7, 3] = 4;
+            grid[7, 4] = 1;
+            grid[7, 5] = 9;
+            grid[7, 8] = 5;
+            grid[8, 4] = 8;
+            grid[8, 7] = 7;
+            grid[8, 8] = 9;
+            gridSolution(grid);
             for (int i = 0; i < 9; i++)
             {
-                for (int n = 0; n < 9; n++)
+                for (int j = 0; j < 9; j++)
                 {
-                    Console.WriteLine(solvedGrid[n, i]);
+                    Console.Write(grid[i,j]);
                 }
+                Console.WriteLine();
             }
             Console.ReadLine();
 
@@ -31,55 +68,75 @@ namespace sudokualgorythm
             return random.Next(1, 9);
         }
 
-        static int[,] gridMaker()
+        static bool gridSolution(int[,] grid)
         {
-            int generatedNumber = randomNumber();
-            int[,] playGrid = new int[9, 9]; 
-            for (int i = 0; i < 9; i++)
+            int[] empty = gridEmpty(grid);
+            if(empty[2] == 1)
             {
-                for (int n = 0; n < 9; n++)
+                return true;
+            }
+            for(int i = 1; i < 10; i++)
+            {
+                if (gridValid(grid, i, empty)==true)
                 {
-                    playGrid[i, n] = 0;
+                    grid[empty[0],empty[1]] = i;
+                    if (gridSolution(grid) == true)
+                    {
+                        return true;
+                    }
+                    grid[empty[0], empty[1]] = 0;
                 }
             }
-            for (int i = 0; i < 9; i++)
-            {
-                for (int n = 0; n < 9; n++)
-                {
-                    if (gridChecker(generatedNumber, playGrid, n, i)==0)
-                    {
-                        playGrid[i, n] = generatedNumber;
-                        generatedNumber = randomNumber();
-                    }
-                    else
-                    {
-                        n--;
-                        generatedNumber = randomNumber();
-                    }
-                }
-            }
-            return playGrid;
+            return false;
         }
 
-        static int gridChecker(int generatedNumber, int[,] playGrid, int a, int b)
+        static bool gridValid(int[,] grid,int generatedNumber,int[] pos)
         {
-            for (int i = 0; i < 9; i++)
+            for(int i = 0; i < 9 ; i++)
             {
-                for (int n = 0; n < 9; n++)
+                if(grid[pos[0], i] == generatedNumber && pos[0] != i)
                 {
-                    if(generatedNumber == playGrid[b, n])
-                    {
-                        Console.Write(generatedNumber);
-                        return 1;
-                    }
+                    return false;
                 }
-                if (generatedNumber == playGrid[i, a])
+                if (grid[i, pos[1]] == generatedNumber && pos[0] != i)
                 {
-                    Console.Write(generatedNumber);
-                    return 1;
+                    return false;
                 }
             }
-            return 0;
+            int grid_x = pos[0] / 3;
+            int grid_y = pos[1] / 3;
+            for(int i = grid_y * 3; i < grid_y * 3 + 3; i++)
+            {
+                for(int j = grid_x * 3; j < grid_x * 3 +3; j++)
+                {
+                    if(grid[j,i] == generatedNumber && (pos[0] != j && pos[1] != i))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        static int[] gridEmpty(int[,] grid)
+        {
+            int[] empty = new int[3];
+            for (int i = 0; i < 9; i++)
+            {
+                for(int j = 0; j < 9; j++)
+                {
+                    if(grid[i,j] == 0)
+                    {
+                        empty[0] = i;
+                        empty[1] = j;
+                        empty[2] = 0;
+                        return empty;
+                    }
+                }
+            }
+            empty[2] = 1;
+            return empty;
         }
     }
 }
